@@ -22,6 +22,8 @@ namespace Whiteout
 
         public float Width { get { return SrcRectangle.Width; } }
         public float Height { get { return SrcRectangle.Height; } }
+        public Rectangle GetBounds() { return new Rectangle((int)Position.X, (int)Position.Y, (int)Width, (int)Height); }
+        public Rectangle GetHitBox() { return new Rectangle((int)Position.X, (int)(Position.Y * 0.75f), (int)Width, (int)(Height / 2)); }
 
         public virtual void Update(GameTime gameTime) 
         {
@@ -35,6 +37,11 @@ namespace Whiteout
                 animationPlayer.Draw(gameTime, spriteBatch, Position, SpriteEffects.None, 0, Vector2.One, Vector2.Zero, Color.White);
             else if (Texture != null)
                 spriteBatch.Draw(Texture, Position, SrcRectangle, Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0);
+        }
+
+        public Vector2 GetCenter()
+        {
+            return new Vector2(SrcRectangle.Width/ 2 , SrcRectangle.Height/2) + Position;
         }
 
     }

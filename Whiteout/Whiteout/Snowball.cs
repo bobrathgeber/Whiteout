@@ -14,6 +14,9 @@ namespace Whiteout
 
         private float _fallTimeDuration = 1.0f;
         private float airTime;
+        public bool AboveSnowMounds;
+        public int Damage;
+        public Player Owner;
 
         public Snowball(ContentManager content)
         {
@@ -32,12 +35,15 @@ namespace Whiteout
             }
         }
 
-        public void Launch(Vector2 position, float speed)
+        public void Launch(Vector2 position, Vector2 velocity, bool aboveSnowMounds, Player owner)
         {
+            Owner = owner;
+            AboveSnowMounds = aboveSnowMounds;
             airTime = 0;
             Alive = true;
             Position = position;
-            Velocity = new Vector2(0, -speed);
+            Velocity = velocity;
+            Damage = 1;
         }
     }
 }

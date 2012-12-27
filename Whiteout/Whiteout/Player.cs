@@ -11,18 +11,18 @@ namespace Whiteout
 {
     class Player : GameObject
     {
-        private const float FRICTION = 0.96f;
+        protected const float FRICTION = 0.96f;
         //Stats
         public float Traction = 25;
         public float MaxMoveSpeed = 15;
         public float ThrowSpeed = 15;
         public float ChargeRate = 0.5f;
-
-        private bool _ducking = false;
-        private bool _charging = false;
+        public int Health;
+        protected bool _ducking = false;
+        protected bool _charging = false;
         public float ThrowCharge { get; set; }
 
-        private ContentManager _content;
+        protected ContentManager _content;
 
         public Player(ContentManager content)
         {
@@ -31,6 +31,7 @@ namespace Whiteout
             Dictionary<string, Rectangle> spriteMap = content.Load<Dictionary<string, Rectangle>>("PlayerSpriteMap");
             animation = new Animation(Texture, spriteMap);
             animationPlayer.PlayAnimation(animation, "PlayerForward", 0.3f, true);
+            Health = 5;
 
         }
 
@@ -42,20 +43,37 @@ namespace Whiteout
             base.Update(gameTime);
         }
 
+        public void TakeDamage(Snowball snowball)
+        {
+            Health -= snowball.Damage;
+            snowball.Alive = false;
+            if (Health <= 0)
+            {
+                Alive = false;
+                animationPlayer.PlayAnimation(animation, "PlayerForwardAttack", 0.3f, true);
+            }
+        }
+
         public void ChargeThrow()
         {
             _charging = true;
             ThrowCharge += ChargeRate;
             if (ThrowCharge > ThrowSpeed)
                 ThrowCharge = ThrowSpeed;
-            animationPlayer.PlayAnimation(animation, "PlayerForwardAttack", 0.3f, true);
+            if(_ducking)
+                animationPlayer.PlayAnimation(animation, "PlayerDuckAttack", 0.3f, true);
+            else
+                animationPlayer.PlayAnimation(animation, "PlayerForwardAttack", 0.3f, true);
         }
 
         public void ReleaseSnowball()
         {
             _charging = false;
             ThrowCharge = 0;
-            animationPlayer.PlayAnimation(animation, "PlayerForward", 0.3f, true);
+            if (_ducking)
+                animationPlayer.PlayAnimation(animation, "PlayerDuck", 0.3f, true);
+            else
+                animationPlayer.PlayAnimation(animation, "PlayerForward", 0.3f, true);
         }
 
         public void MoveUp()
@@ -98,6 +116,16 @@ namespace Whiteout
                 animationPlayer.PlayAnimation(animation, "PlayerForwardAttack", 0.3f, true);
             else
                 animationPlayer.PlayAnimation(animation, "PlayerForward", 0.3f, true);
+        }
+
+        public bool IsDucking()
+        {
+            return _ducking;
+        }
+
+        public virtual Vector2 GetThrowVelocity()
+        {
+            return new Vector2(0, -ThrowCharge) + (Velocity / 2);
         }
     }
 }
