@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whiteout", "Whiteout\Whiteout\Whiteout.csproj", "{CE6A0BC1-2CDE-4EEB-882B-AD2B3E73F78B}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "WhiteoutContent", "Whiteout\WhiteoutContent\WhiteoutContent.contentproj", "{31892CAF-F5CD-42CE-B85F-BC412ED2E0F2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CE6A0BC1-2CDE-4EEB-882B-AD2B3E73F78B}.Debug|x86.ActiveCfg = Debug|x86
+		{CE6A0BC1-2CDE-4EEB-882B-AD2B3E73F78B}.Debug|x86.Build.0 = Debug|x86
+		{CE6A0BC1-2CDE-4EEB-882B-AD2B3E73F78B}.Release|x86.ActiveCfg = Release|x86
+		{CE6A0BC1-2CDE-4EEB-882B-AD2B3E73F78B}.Release|x86.Build.0 = Release|x86
+		{31892CAF-F5CD-42CE-B85F-BC412ED2E0F2}.Debug|x86.ActiveCfg = Debug|x86
+		{31892CAF-F5CD-42CE-B85F-BC412ED2E0F2}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
