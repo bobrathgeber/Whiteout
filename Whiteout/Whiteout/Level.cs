@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Content;
+using System;
 namespace Whiteout
 {
     class Level
@@ -18,6 +19,7 @@ namespace Whiteout
         private ContentManager _content;
         private Texture2D _levelBackground;
         private Texture2D _lifeCounterImage;
+        public Random Rand;
 
         public Level(ContentManager content, Player player)
         {
@@ -27,6 +29,7 @@ namespace Whiteout
             _snowballs = new List<Snowball>();
             _obstacles = new List<Obstacle>();
             _enemies = new List<Enemy>();
+            Rand = new Random();
             _oldKeyboardState = Keyboard.GetState();
             _levelBackground = _content.Load<Texture2D>("LevelBackground");
             _lifeCounterImage = _content.Load<Texture2D>("playerHat");
@@ -60,8 +63,10 @@ namespace Whiteout
 
                 foreach (Obstacle obstacle in _obstacles)
                 {
-                    if (snowball.Alive && CheckCollision(snowball, obstacle) && snowball.AboveSnowMounds)
+                    if (snowball.Alive && CheckCollision(snowball, obstacle) && !snowball.AboveSnowMounds)
                         snowball.Alive = false;
+                    else if (snowball.Alive && CheckCollision(snowball, obstacle) && snowball.AboveSnowMounds)
+                        snowball.PassedOverMound = true;
                 }
                 foreach (Enemy enemy in _enemies)
                 {
@@ -69,8 +74,13 @@ namespace Whiteout
                         enemy.TakeDamage(snowball);
                 }
 
+
                 if (snowball.Alive && CheckCollision(snowball, _player) && snowball.Owner != _player)
+                {
+                    if (_player.IsDucking() && snowball.PassedOverMound)
+                        break;
                     _player.TakeDamage(snowball);
+                }
             }
         }
 
@@ -156,7 +166,7 @@ namespace Whiteout
             if (aCreateNew == true)
             {
                 Snowball aSnowball = new Snowball(_content);
-                aSnowball.Launch(new Vector2(thrower.Position.X + thrower.Width, thrower.Position.Y), thrower.GetThrowVelocity(), thrower.IsDucking(), thrower);
+                aSnowball.Launch(new Vector2(thrower.Position.X + thrower.Width, thrower.Position.Y), thrower.GetThrowVelocity(), !thrower.IsDucking(), thrower);
                 _snowballs.Add(aSnowball);
             }
 

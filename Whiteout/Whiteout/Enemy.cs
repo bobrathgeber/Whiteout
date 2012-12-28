@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace Whiteout
 {
@@ -10,6 +11,7 @@ namespace Whiteout
         private float _attackTimer;
         public float AttackDelay = 1f;
         private float _attackCooldown = 0.5f;
+        private int _accuracyDelta=200;
         private Level _level;
 
         public Enemy(ContentManager content, Vector2 position, Level level)
@@ -53,7 +55,10 @@ namespace Whiteout
 
         public override Vector2 GetThrowVelocity()
         {
-            Vector2 throwDirection = _level.GetPlayer().GetCenter() - Position - new Vector2(Width, 0);
+            float delta = _level.Rand.Next(_accuracyDelta) - (_accuracyDelta/2);
+            Console.WriteLine(delta);
+
+            Vector2 throwDirection = _level.GetPlayer().GetCenter() - Position - new Vector2(Width + delta, 0);
             throwDirection.Normalize();
             return throwDirection * -ThrowCharge;
         }

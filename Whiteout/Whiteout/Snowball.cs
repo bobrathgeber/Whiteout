@@ -17,6 +17,7 @@ namespace Whiteout
         public bool AboveSnowMounds;
         public int Damage;
         public Player Owner;
+        public bool PassedOverMound;
 
         public Snowball(ContentManager content)
         {
@@ -37,6 +38,7 @@ namespace Whiteout
 
         public void Launch(Vector2 position, Vector2 velocity, bool aboveSnowMounds, Player owner)
         {
+            PassedOverMound = false;
             Owner = owner;
             AboveSnowMounds = aboveSnowMounds;
             airTime = 0;
